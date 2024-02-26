@@ -58,6 +58,11 @@ test('match "change icon name and window title" in string', t => {
 	t.is('\u001B]0;sg@tota:~/git/\u0007\u001B[01;32m[sg@tota\u001B[01;37m misc-tests\u001B[01;32m]$'.match(ansiRegex())[0], '\u001B]0;sg@tota:~/git/\u0007');
 });
 
+test('CVE-2021-3807', t => {
+	const attackStr = '\u001B[' + ';'.repeat(10000 * 10000);
+	t.notRegex(attackStr, ansiRegex());
+});
+
 // Testing against extended codes (excluding codes ending in 0-9)
 for (const codeSet of Object.keys(ansiCodes)) {
 	for (const el of ansiCodes[codeSet]) {
